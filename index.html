@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>rock paper scissors</title>
+</head>
+<body>
+    
+
+<script>
+    const choices = ['rock', 'paper', 'scissors']
+
+    function generateIndex(listLength) {
+        return Math.floor(Math.random() * listLength);
+    }
+
+    function computerPlay() {
+        let randomIndex = generateIndex(3);
+        return choices[randomIndex];
+    }
+
+    // Determine if Player or Computer wins.
+    function playRound(playerSelection, computerSelection) {
+        // Convert selections to uppercase to make case insensitive.
+        playerSelection = playerSelection.toUpperCase();
+        computerSelection = computerSelection.toUpperCase();
+
+        // Code the message.
+        let playerWins;
+
+        // If selection is the same, they tie.
+        if (playerSelection === computerSelection) {
+            // Return tie message.
+        }
+
+        // Does Player select rock?
+        if (playerSelection === 'ROCK') {
+            // If Computer selects paper, Computer wins.
+            if (computerSelection === 'PAPER') {
+                playerWins = false;
+            }
+            // If Computer selects scissors, Player wins.
+        }
+
+        // Does Player select paper?
+            // If Computer selects rock, Player wins.
+            // If Computer selects scissors, Computer wins.
+
+        // Does Player select scissors?
+            // If Computer selects rock, Computer wins.
+            // If Computer selects paper, Player wins.
+
+    }
+
+    const playerSelection = 'rock';
+    const computerSelection = computerPlay();
+
+</script>
+</body>
+</html>
