@@ -25,35 +25,50 @@
         playerSelection = playerSelection.toUpperCase();
         computerSelection = computerSelection.toUpperCase();
 
-        // Code the message.
-        let playerWins;
+        // Code the result message.
+        let winningMessage = `You win! ${playerSelection} beats ${computerSelection}.`
+        let losingMessage = `You lose! ${computerSelection} beats ${playerSelection}.`
 
         // If selection is the same, they tie.
         if (playerSelection === computerSelection) {
-            // Return tie message.
+            return `Tie! You both chose ${playerSelection}`;
         }
 
-        // Does Player select rock?
-        if (playerSelection === 'ROCK') {
-            // If Computer selects paper, Computer wins.
-            if (computerSelection === 'PAPER') {
-                playerWins = false;
-            }
-            // If Computer selects scissors, Player wins.
+        switch (playerSelection) {
+            case 'ROCK':
+                // If Computer selects paper, Computer wins.
+                if (computerSelection === 'PAPER') {
+                    return losingMessage;
+                } else {
+                    // If Computer selects scissors, Player wins.
+                    return winningMessage;
+                }
+                break;
+
+            case 'PAPER':
+                if (computerSelection === 'SCISSORS') {
+                        return losingMessage;
+                } else {
+                    return winningMessage;
+                }
+                break;
+            
+            case 'SCISSORS':
+                if (computerSelection === 'ROCK') {
+                        return losingMessage;
+                } else {
+                    return winningMessage;
+                }
+                break;
+            default:
+               console.log('Incorrect input.')
         }
-
-        // Does Player select paper?
-            // If Computer selects rock, Player wins.
-            // If Computer selects scissors, Computer wins.
-
-        // Does Player select scissors?
-            // If Computer selects rock, Computer wins.
-            // If Computer selects paper, Player wins.
 
     }
 
     const playerSelection = 'rock';
     const computerSelection = computerPlay();
+    console.log(playRound(playerSelection, computerSelection));
 
 </script>
 </body>
