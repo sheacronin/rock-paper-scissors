@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>rock paper scissors</title>
+</head>
+<body>
+    
+
+<script>
+    const choices = ['ROCK', 'PAPER', 'SCISSORS'];
+
+    function generateIndex(listLength) {
+        return Math.floor(Math.random() * listLength);
+    }
+
+    function computerPlay() {
+        let randomIndex = generateIndex(3);
+        return choices[randomIndex];
+    }
+
+    // Keep score.
+    let playerScore = 0;
+    let computerScore = 0;
+
+    // Determine if Player or Computer wins.
+    function playRound(playerSelection, computerSelection) {
+        // Convert Player selection to uppercase to make case insensitive.
+        playerSelection = playerSelection.toUpperCase();
+
+        // Code the result message.
+        let winningMessage = `You win! ${playerSelection} beats ${computerSelection}.`
+        let losingMessage = `You lose! ${computerSelection} beats ${playerSelection}.`
+
+        // Functions to run if you win / lose.
+        function win() {
+            playerScore++;
+            console.log(playerScore + ' / ' + computerScore);
+            return winningMessage;
+        }
+
+        function lose() {
+            computerScore++;
+            console.log(playerScore + ' / ' + computerScore);
+            return losingMessage;
+        }
+
+        // If selection is the same, they tie.
+        if (playerSelection === computerSelection) {
+            console.log(playerScore + ' / ' + computerScore);
+            return `Tie! You both chose ${playerSelection}`;
+        }
+
+        switch (playerSelection) {
+            case 'ROCK':
+                // If Computer selects paper, Computer wins.
+                if (computerSelection === 'PAPER') {
+                    return lose();
+                } else {
+                // If Computer selects scissors, Player wins.
+                    return win();
+                }
+                break;
+
+            case 'PAPER':
+                if (computerSelection === 'SCISSORS') {
+                    return lose();
+                } else {
+                    return win();
+                }
+                break;
+            
+            case 'SCISSORS':
+                if (computerSelection === 'ROCK') {
+                    return lose();
+                } else {
+                    return win();
+                }
+                break;
+
+            default:
+               console.log('Incorrect input.')
+        }
+
+    }
+
+    function game() {
+        for (i = 1; i <= 5; i++) {
+            console.log(playRound(prompt('Select: ROCK | PAPER | SCISSORS'), computerPlay()));
+        }
+        if (playerScore > computerScore) {
+            return 'You won! :D';
+        } else if (playerScore < computerScore) {
+            return 'You lost :(';
+        } else {
+            return 'It\'s a tie :/';
+        }
+    }
+
+    console.log(game());
+
+</script>
+</body>
+</html>

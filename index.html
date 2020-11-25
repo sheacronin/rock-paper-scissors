@@ -5,15 +5,24 @@
     <title>rock paper scissors</title>
 </head>
 <body>
-    
+
+<div id="score">0 / 0</div>
+
+<button>ROCK</button>
+<button>PAPER</button>
+<button>SCISSORS</button>
+
+<div id="results"></div>
 
 <script>
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
 
+    // Helper funciton to determine index for computer choice.
     function generateIndex(listLength) {
         return Math.floor(Math.random() * listLength);
     }
 
+    // Computer makes selection.
     function computerPlay() {
         let randomIndex = generateIndex(3);
         return choices[randomIndex];
@@ -23,82 +32,75 @@
     let playerScore = 0;
     let computerScore = 0;
 
-    // Determine if Player or Computer wins.
-    function playRound(playerSelection, computerSelection) {
-        // Convert Player selection to uppercase to make case insensitive.
-        playerSelection = playerSelection.toUpperCase();
+    // Storing score & results divs.
+    const score = document.querySelector('#score');
+    const results = document.querySelector('#results');
 
-        // Code the result message.
-        let winningMessage = `You win! ${playerSelection} beats ${computerSelection}.`
-        let losingMessage = `You lose! ${computerSelection} beats ${playerSelection}.`
+    function playRound(playerSelection, computerSelection) {
+        // The result message.
+        const winningMessage = `You win! ${playerSelection} beats ${computerSelection}.`
+        const losingMessage = `You lose! ${computerSelection} beats ${playerSelection}.`
 
         // Functions to run if you win / lose.
-        function win() {
-            playerScore++;
-            console.log(playerScore + ' / ' + computerScore);
-            return winningMessage;
-        }
-
-        function lose() {
-            computerScore++;
-            console.log(playerScore + ' / ' + computerScore);
-            return losingMessage;
+        function showResult(playerWins) {
+            if (playerWins) {
+                playerScore++;
+                score.textContent = playerScore + ' / ' + computerScore;
+                return winningMessage;
+            } else {
+                computerScore++;
+                score.textContent = playerScore + ' / ' + computerScore;
+                return losingMessage;
+            }
         }
 
         // If selection is the same, they tie.
         if (playerSelection === computerSelection) {
-            console.log(playerScore + ' / ' + computerScore);
             return `Tie! You both chose ${playerSelection}`;
         }
 
+        // Switch to determine if player wins/loses.
         switch (playerSelection) {
             case 'ROCK':
-                // If Computer selects paper, Computer wins.
                 if (computerSelection === 'PAPER') {
-                    return lose();
+                    return showResult(false);
                 } else {
-                // If Computer selects scissors, Player wins.
-                    return win();
+                    return showResult(true);
                 }
                 break;
 
             case 'PAPER':
                 if (computerSelection === 'SCISSORS') {
-                    return lose();
+                    return showResult(false);
                 } else {
-                    return win();
+                    return showResult(true);
                 }
                 break;
             
             case 'SCISSORS':
                 if (computerSelection === 'ROCK') {
-                    return lose();
+                    return showResult(false);
                 } else {
-                    return win();
+                    return showResult(true);
                 }
                 break;
 
             default:
                console.log('Incorrect input.')
         }
-
     }
 
-    function game() {
-        for (i = 1; i <= 5; i++) {
-            console.log(playRound(prompt('Select: ROCK | PAPER | SCISSORS'), computerPlay()));
-        }
-        if (playerScore > computerScore) {
-            return 'You won! :D';
-        } else if (playerScore < computerScore) {
-            return 'You lost :(';
-        } else {
-            return 'It\'s a tie :/';
-        }
-    }
+    // Adding event listeners for buttons.
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => button.addEventListener('click', () => {
+        const round = playRound(button.textContent, computerPlay());
 
-    console.log(game());
-
+        // Appending results to the div.
+        const p = document.createElement('p');
+        p.textContent += round;
+        results.appendChild(p);
+    }));
+    
 </script>
 </body>
 </html>
