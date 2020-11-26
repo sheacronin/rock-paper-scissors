@@ -16,9 +16,9 @@
     <button class="selection">SCISSORS</button>
 </div>
 
-<div id="retry-container"></div>
-
 <div id="results"></div>
+
+<div id="retry-container"></div>
 
 <script>
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
@@ -39,7 +39,7 @@
     let computerScore = 0;
 
     function playRound(playerSelection, computerSelection) {
-        // Storing result messages.
+        // Storing round result messages.
         const winRoundMessage = `You win! ${playerSelection} beats ${computerSelection}.`;
         const loseRoundMessage = `You lose! ${computerSelection} beats ${playerSelection}.`;
         const tieRoundMessage = `Tie! You both chose ${playerSelection}`;
@@ -120,10 +120,10 @@
         }
     }
 
-    function showRoundResult(roundResult) {
+    function showRoundResult(roundResultMessage) {
         // Appending round results to the results div.
         const p = document.createElement('p');
-        p.textContent += roundResult;
+        p.textContent += roundResultMessage;
         results.prepend(p);
     }
 
