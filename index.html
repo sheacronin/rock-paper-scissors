@@ -38,42 +38,16 @@
     let playerScore = 0;
     let computerScore = 0;
 
-    // Storing score & results divs.
-    const score = document.querySelector('#score');
-    const results = document.querySelector('#results');
-
-    // Functions to run if you win / lose the round.
-    function updateScore(playerWinsRound) {
-        if (playerWinsRound) {
-            playerScore++;
-            checkIfGameWinner();
-        } else {
-            computerScore++;
-            checkIfGameWinner();
-        }
-        
-        score.textContent = playerScore + ' / ' + computerScore;
-    }
-
-    function showRoundResult(playerWinsRound, playerSelection, computerSelection) {
-        // Storing result message for if player won/lost.
-        let roundResult;
-        if (playerWinsRound) {
-            roundResult = `You win! ${playerSelection} beats ${computerSelection}.`;
-        } else {
-            roundResult = `You lose! ${computerSelection} beats ${playerSelection}.`;
-        }
-
-        // Appending round results to the results div.
-        const p = document.createElement('p');
-        p.textContent += roundResult;
-        results.appendChild(p);
-    }
-
     function playRound(playerSelection, computerSelection) {
+        // Storing result messages.
+        const winRoundMessage = `You win! ${playerSelection} beats ${computerSelection}.`;
+        const loseRoundMessage = `You lose! ${computerSelection} beats ${playerSelection}.`;
+        const tieRoundMessage = `Tie! You both chose ${playerSelection}`;
+        
         // If selection is the same, they tie.
         if (playerSelection === computerSelection) {
-            return `Tie! You both chose ${playerSelection}`;
+            showRoundResult(tieRoundMessage);
+            return;
         }
 
         // Switch to determine if player wins/loses.
@@ -81,37 +55,43 @@
             case 'ROCK':
                 if (computerSelection === 'PAPER') {
                     updateScore(false);
-                    return showRoundResult(false, playerSelection, computerSelection);
+                    showRoundResult(loseRoundMessage);
                 } else {
                     updateScore(true);
-                    return showRoundResult(true, playerSelection, computerSelection);
+                    showRoundResult(winRoundMessage);
                 }
                 break;
 
             case 'PAPER':
                 if (computerSelection === 'SCISSORS') {
                     updateScore(false);
-                    return showRoundResult(false, playerSelection, computerSelection);
+                    showRoundResult(loseRoundMessage);
                 } else {
-                    updateScore(false);
-                    return showRoundResult(true, playerSelection, computerSelection);
+                    updateScore(true);
+                    showRoundResult(winRoundMessage);
                 }
                 break;
             
             case 'SCISSORS':
                 if (computerSelection === 'ROCK') {
                     updateScore(false);
-                    return showRoundResult(false, playerSelection, computerSelection);
+                    showRoundResult(loseRoundMessage);
                 } else {
                     updateScore(true);
-                    return showRoundResult(true, playerSelection, computerSelection);
+                    showRoundResult(winRoundMessage);
                 }
                 break;
 
             default:
                console.log('Incorrect input.')
         }
+
+        checkIfGameWinner();
     }
+
+    // Storing score & results divs.
+    const score = document.querySelector('#score');
+    const results = document.querySelector('#results');
 
     // Adding event listeners for selection buttons to play round.
     const buttons = document.querySelectorAll('.selection');
@@ -119,27 +99,34 @@
         playRound(button.textContent, computerPlay());
     }));
 
-    // Adding retry button variables.
-    const retryContainer = document.querySelector('#retry-container');
-    const retryButton = document.createElement('button');
-    retryButton.textContent = 'RETRY';
-    retryButton.addEventListener('click', () => resetGame());
-
-
-    function resetGame() {
-        buttons.forEach(button => button.disabled = false);
-        playerScore = 0;
-        computerScore = 0;
-        score.textContent = '0 / 0';
-
-        retryContainer.removeChild(retryButton);
-        console.log('Game has been reset');
+    // Functions to run if you win / lose the round.
+    function updateScore(playerWinsRound) {
+        if (playerWinsRound) {
+            playerScore++;
+        } else {
+            computerScore++;
+        }
+        
+        score.textContent = playerScore + ' / ' + computerScore;
     }
 
-    // Check if playerScore === 5 | computerScore === 5
-    // Declare winner
-    // Disable buttons
-    // Add "Play again" button
+    function checkIfGameWinner() {
+        if (playerScore === 5) {
+            showGameResult(true);
+        } else if (computerScore === 5) {
+            showGameResult(false);
+        } else {
+            console.log('No winner yet...');
+        }
+    }
+
+    function showRoundResult(roundResult) {
+        // Appending round results to the results div.
+        const p = document.createElement('p');
+        p.textContent += roundResult;
+        results.prepend(p);
+    }
+
     function showGameResult(playerWins) {
         // Disabling seleciton buttons so play can't continue.
         buttons.forEach(button => button.disabled = true);
@@ -154,19 +141,29 @@
         } else {
             gameResult.textContent = 'You lost the game :('
         }
-        results.appendChild(gameResult);
+        results.prepend(gameResult);
     }
 
-    function checkIfGameWinner() {
-        if (playerScore === 5) {
-            console.log('You won!');
-            showGameResult();
-        } else if (computerScore === 5) {
-            console.log('You lost!');
-            showGameResult();
-        } else {
-            console.log('No winner yet...');
+    // Adding retry button variables.
+    const retryContainer = document.querySelector('#retry-container');
+    const retryButton = document.createElement('button');
+    retryButton.textContent = 'RETRY';
+    retryButton.addEventListener('click', () => resetGame());
+
+
+    function resetGame() {
+        buttons.forEach(button => button.disabled = false);
+        playerScore = 0;
+        computerScore = 0;
+        score.textContent = '0 / 0';
+
+        // Removing p elements from results div.
+        while (results.firstChild) {
+            results.removeChild(results.firstChild);
         }
+
+        retryContainer.removeChild(retryButton);
+        console.log('Game has been reset');
     }
 
 </script>
