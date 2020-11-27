@@ -66,8 +66,9 @@ function playRound(playerSelection, computerSelection) {
     checkIfGameWinner();
 }
 
-// Storing score & results divs.
-const score = document.querySelector('#score');
+// Storing score & results elements.
+const playerScoreCell = document.querySelector('#player-score');
+const computerScoreCell = document.querySelector('#computer-score')
 const results = document.querySelector('#results');
 
 // Adding event listeners for selection buttons to play round.
@@ -84,7 +85,8 @@ function updateScore(playerWinsRound) {
         computerScore++;
     }
     
-    score.textContent = playerScore + ' / ' + computerScore;
+    playerScoreCell.textContent = playerScore;
+    computerScoreCell.textContent = computerScore;
 }
 
 function checkIfGameWinner() {
@@ -132,7 +134,8 @@ function resetGame() {
     buttons.forEach(button => button.disabled = false);
     playerScore = 0;
     computerScore = 0;
-    score.textContent = '0 / 0';
+    playerScoreCell.textContent = '0';
+    computerScoreCell.textContent = '0';
 
     // Removing p elements from results div.
     while (results.firstChild) {

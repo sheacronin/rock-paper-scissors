@@ -20,7 +20,18 @@ button {
 }
 
 #score {
-   padding: 0;
+   background-color: #3C5B7C;
+   margin: auto;
+   border-spacing: 10px;
+   border-radius: 10px;
+   color: white;
+}
+
+#score td, th {
+    margin: 10px;
+    width: 150px;
+    background-color: #456990;
+    padding: 10px;
 }
 
 #selection-container {
